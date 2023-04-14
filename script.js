@@ -901,11 +901,19 @@ function mySearch(){
     li.style.fontSize = "14pt";
     li.style.fontWeight = "lighter";
     //inserimento delle proprietà degli oggetti che compongono l'array result all'interno del nuovo elemento <li> // si può ottimizzare in qualche modo?
-    li.textContent =  item.title + " - " + item.location + " - " + item.department + " - " + item.salary_range + " - " + item.benefit + " - " + item.telecommuting + " - " + item.has_company_logo + " - " + item.has_questions + " - " + item.employment_type + " - " + item.required_experience + " - " + item.required_education + " + " + item.industry + " - " + item.function + " - " + item.fraudulent;
+    //commentato perché ottimizzato li.textContent =  item.title + " - " + item.location + " - " + item.department + " - " + item.salary_range + " - " + item.benefit + " - " + item.telecommuting + " - " + item.has_company_logo + " - " + item.has_questions + " - " + item.employment_type + " - " + item.required_experience + " - " + item.required_education + " + " + item.industry + " - " + item.function + " - " + item.fraudulent;
+    //ottimizzazione per ciclare le proprietà
+    li.textContent = "";
+    for (let prop in item){
+      if (item.hasOwnProperty(prop)) {
+        li.textContent += item[prop] + " - ";
+      }
+    }
+    //metodo slice per togliere il " - " nei risultati di ricerca
+    li.textContent = li.textContent.slice(0, -2);
     //metodo appendChild per inserire in fondo all'elemento <ul>> il nuovo elemento <li>
     ul.appendChild(li);
   }
-
   //restituire array e numero di risultati
   return {result, count};
 }
