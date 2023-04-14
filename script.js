@@ -831,16 +831,30 @@ const jobs = [
   },
 ]
 
-
+//creazione della funzione di ricerca all'interno dell'array jobs
 function mySearch(){
+  // dichiarazione delle variabili di input con metodo toLowerCase per evitare case sensitive
   let inputLocation = document.getElementById("location").value.toLowerCase();
   let inputJobTitle = document.getElementById("job-title").value.toLowerCase();
+  // console.log delle variabili di input per verificare che siano correttamente "prese"
   console.log("inputLocation:", inputLocation);
   console.log("inputJobTitle:", inputJobTitle);
+  //dichirazione della variabile array result
   let result = [];
+  //dichirazione della variabile <ul>
+  let ul = document.getElementById("ul");
+  //controllo per sovrascrivere i risultati precedenti (se esiste, rimuovilo dalla pagina)
+  if (ul) {
+    ul.remove();
+    console.log("c'erano dei risultati ma li ho rimossi")
+  }
+  //ciclo for dell'array jobs
   for (let i = 0; i < jobs.length; i++) {
+    //condizione da soddisfare per pushare i risultati nel nuovo array result (deve includere le variabili di input e diventare case insensitive)
     if(jobs[i].title.toLowerCase().includes(inputJobTitle) && jobs[i].location.toLowerCase().includes(inputLocation)){
+      //push dei risultati che rispettano le condizioni all'interno dell'array result
       result.push({
+        //push dei soli valori richiesti dall'esercizio
         title: jobs[i].title, 
         location: jobs[i].location,
         department: jobs[i].department,
@@ -857,29 +871,42 @@ function mySearch(){
         fraudulent: jobs[i].fraudulent,});
     }
   }
+  //dichiarazione della variabile count per mostrare il numero dei risultati che soddisfano i requisiti di ricerca
   let count = result.length;
   console.log(result);
   console.log(count);
 
-  let ul = document.createElement("ul");
+  //creazione di un nuovo elemente <ul>
+  ul = document.createElement("ul");
+  //assegnazione id "ul" per controllo sovrascrittura risultati precedenti
+  ul.id = "ul";
+  //inserimento di testo + variabile count (per indicare il numero di risultati) all'interno del nuovo elemento <ul>
   ul.innerText = "Hai trovato" + "  " + count + "  " + "posizioni lavorative";
+  //inserimento di stile personalizzato per elemento <ul>
   ul.style.fontFamily ="Arial, Helvetica, sans-serif";
   ul.style.fontSize = "20pt";
   ul.style.fontWeight = "bold";
+  //selezione dell'elemento html in cui inserire il nuovo elemento <ul>
   body = document.querySelector("body");
+  //metodo appendChild per inserire in fondo all'elemento html selezionato il nuovo elemento <ul>
   body.appendChild(ul);
-
+  //ciclo for of per renderizzare ogni elemento dell'array result in un tag <li>
   for (let item of result) {
     // Creazione di un nuovo elemento di lista <li> per ogni elemento dell'array
     let li = document.createElement("li");
+    //inserimento di stile personalizzato per elemento <li>
     li.style.marginTop = "10px";
     li.style.marginBottom = "10px";
     li.style.fontFamily ="Arial, Helvetica, sans-serif";
     li.style.fontSize = "14pt";
     li.style.fontWeight = "lighter";
-    li.textContent = item.title + " - " + item.location + " - " + item.department + " - " + item.salary_range + " - " + item.benefit + " - " + item.telecommuting + " - " + item.has_company_logo + " - " + item.has_questions + " - " + item.employment_type + " - " + item.required_experience + " - " + item.required_education + " + " + item.industry + " - " + item.function + " - " + item.fraudulent;
+    //inserimento delle proprietà degli oggetti che compongono l'array result all'interno del nuovo elemento <li> // si può ottimizzare in qualche modo?
+    li.textContent =  item.title + " - " + item.location + " - " + item.department + " - " + item.salary_range + " - " + item.benefit + " - " + item.telecommuting + " - " + item.has_company_logo + " - " + item.has_questions + " - " + item.employment_type + " - " + item.required_experience + " - " + item.required_education + " + " + item.industry + " - " + item.function + " - " + item.fraudulent;
+    //metodo appendChild per inserire in fondo all'elemento <ul>> il nuovo elemento <li>
     ul.appendChild(li);
   }
 
+  //restituire array e numero di risultati
   return {result, count};
 }
+
